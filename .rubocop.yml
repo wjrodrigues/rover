@@ -5,3 +5,6 @@ AllCops:
 
 Style/Documentation:
   Enabled: false
+
+Metrics/BlockLength:
+  Exclude: ["**/*_spec.rb"]
