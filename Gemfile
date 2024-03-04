@@ -40,18 +40,23 @@ gem 'bootsnap', require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows]
+end
 
-  # https://github.com/rubocop/rubocop-rails
-  gem 'rubocop-rails', '~> 2.24'
-
+group :test do
   # https://github.com/simplecov-ruby/simplecov
   gem 'simplecov', '~> 0.22.0'
 
   # https://github.com/rspec/rspec-rails
   gem 'rspec-rails', '~> 6.1', '>= 6.1.1'
+
+  # https://github.com/thoughtbot/shoulda-matchers
+  gem 'shoulda-matchers', '~> 6.1'
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  #  # https://github.com/rubocop/rubocop-rails
+  gem 'rubocop-rails', '~> 2.24'
 end
