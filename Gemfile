@@ -46,6 +46,9 @@ group :development, :test do
 
   # https://github.com/simplecov-ruby/simplecov
   gem 'simplecov', '~> 0.22.0'
+
+  # https://github.com/rspec/rspec-rails
+  gem 'rspec-rails', '~> 6.1', '>= 6.1.1'
 end
 
 group :development do
