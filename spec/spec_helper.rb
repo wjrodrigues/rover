@@ -15,6 +15,7 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+# rubocop:disable Metrics/BlockLength
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -96,7 +97,16 @@ RSpec.configure do |config|
   unless ENV['coverage'].nil?
     require 'simplecov'
 
-    SimpleCov.start 'rails'
+    SimpleCov.minimum_coverage(line: 100)
+
+    SimpleCov.start 'rails' do
+      add_filter 'channels/application_cable/connection.rb'
+      add_filter 'channels/application_cable/channel.rb'
+      add_filter 'controllers/application_controller.rb'
+      add_filter 'models/application_record.rb'
+      add_filter 'mailers/application_mailer.rb'
+      add_filter 'jobs/application_job.rb'
+    end
   end
 
   # https://github.com/thoughtbot/shoulda-matchers
@@ -112,3 +122,4 @@ RSpec.configure do |config|
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
