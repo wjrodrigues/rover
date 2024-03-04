@@ -1,0 +1,36 @@
+name: Rover - CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test_app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Copy Env's
+        run: |
+          cp docker/.env-example docker/.env
+          cp .env-example .env
+
+      - name: Run docker
+        run: docker-compose -f docker/docker-compose-ci.yml up -d --build
+
+      - name: Install dependencies
+        run: docker exec rover_app bash -c "gem install bundler && bundle config build.nokogiri --use-system-libraries && bundle install"
+
+      - name: Rubocop
+        run: docker exec rover_app bash -c "rubocop"
+
+      - name: Permission
+        run: docker exec rover_app bash -c "chmod -R 777 /app/tmp/"
+
+      - name: Setup
+        run: docker exec -u dev rover_app bash -c "RACK_ENV=test rake db:setup"
+
+      - name: Run tests
+        run: docker exec rover_app bash -c "coverage=true bundle exec rspec --color"
