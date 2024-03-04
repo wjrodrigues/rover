@@ -98,4 +98,17 @@ RSpec.configure do |config|
 
     SimpleCov.start 'rails'
   end
+
+  # https://github.com/thoughtbot/shoulda-matchers
+  require 'shoulda/matchers'
+
+  Shoulda::Matchers.configure do |c|
+    c.integrate do |with|
+      with.test_framework :rspec
+
+      require 'active_model'
+
+      with.library :active_model
+    end
+  end
 end
