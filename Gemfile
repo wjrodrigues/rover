@@ -43,6 +43,9 @@ group :development, :test do
 
   # https://github.com/rubocop/rubocop-rails
   gem 'rubocop-rails', '~> 2.24'
+
+  # https://github.com/simplecov-ruby/simplecov
+  gem 'simplecov', '~> 0.22.0'
 end
 
 group :development do
