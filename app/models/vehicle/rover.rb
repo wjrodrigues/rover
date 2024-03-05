@@ -29,18 +29,16 @@ module Vehicle
       return self.orientation = WEST if orientation == NORTH
       return self.orientation = SOUTH if orientation == WEST
       return self.orientation = EAST if orientation == SOUTH
-      return self.orientation = NORTH if orientation == EAST
 
-      self
+      self.orientation = NORTH if orientation == EAST
     end
 
     def move_right
       return self.orientation = EAST if orientation == NORTH
       return self.orientation = SOUTH if orientation == EAST
       return self.orientation = WEST if orientation == SOUTH
-      return self.orientation = NORTH if orientation == WEST
 
-      self
+      self.orientation = NORTH if orientation == WEST
     end
 
     def move
@@ -60,9 +58,8 @@ module Vehicle
       return self.y_axis += 1 if orientation == NORTH
       return self.y_axis -= 1 if orientation == SOUTH
       return self.x_axis += 1 if orientation == EAST
-      return self.x_axis -= 1 if orientation == WEST
 
-      self
+      self.x_axis -= 1 if orientation == WEST
     end
 
     def add_path = path << { x_axis:, y_axis:, orientation: }
