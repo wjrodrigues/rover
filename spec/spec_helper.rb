@@ -107,7 +107,7 @@ RSpec.configure do |config|
       add_filter 'mailers/application_mailer.rb'
       add_filter 'jobs/application_job.rb'
 
-      add_group 'services', '/services'
+      add_group 'Services', '/services'
     end
   end
 
