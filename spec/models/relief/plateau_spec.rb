@@ -33,6 +33,20 @@ RSpec.describe Relief::Plateau, :model do
 
         expect { plateau.to_move?(x_axis: 10.2, y_axis: 5) }.to raise_error(NoMatchingPatternError)
       end
+
+      it 'returns false if location negative' do
+        plateau = described_class.new(width: 20, height: 10)
+
+        expect(plateau.to_move?(x_axis: -1, y_axis: 5)).to be_falsy
+      end
+
+      it 'returns false if location not empty' do
+        rover = Vehicle::Rover.new(x_axis: 0, y_axis: 10)
+        plateau = described_class.new(width: 20, height: 10)
+        plateau.add_vehicle!(rover)
+
+        expect(plateau.to_move?(x_axis: 0, y_axis: 10)).to be_falsy
+      end
     end
 
     context 'when the coordinate is valid' do
