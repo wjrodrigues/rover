@@ -40,6 +40,11 @@ gem 'bootsnap', require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows]
+
+  # https://github.com/rswag/rswag
+  gem 'rswag-api'
+  gem 'rswag-specs', '~> 2.13'
+  gem 'rswag-ui'
 end
 
 group :test do
