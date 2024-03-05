@@ -1,24 +1,27 @@
-# README
+# Rover
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Aplicação que orienta o Rover em uma planície
 
-Things you may want to cover:
+## Iniciar aplicação
 
-* Ruby version
+Inicia os containers
 
-* System dependencies
+```bash
+make start
+```
 
-* Configuration
+Acompanhar status container
 
-* Database creation
+```bash
+docker logs rover_app -f
+```
 
-* Database initialization
+## Documentação
+Atualiza documentação da aplicação
 
-* How to run the test suite
+```bash
+make update-doc
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+Link da documentação: http://localhost:3000/api-docs
 
-* Deployment instructions
-
-* ...
