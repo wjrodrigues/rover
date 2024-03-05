@@ -123,5 +123,9 @@ RSpec.configure do |config|
       with.library :active_model
     end
   end
+
+  # https://github.com/thoughtbot/factory_bot/
+  require 'factory_bot'
+  config.include FactoryBot::Syntax::Methods
 end
 # rubocop:enable Metrics/BlockLength
