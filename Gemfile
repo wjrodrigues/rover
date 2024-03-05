@@ -45,6 +45,9 @@ group :development, :test do
   gem 'rswag-api'
   gem 'rswag-specs', '~> 2.13'
   gem 'rswag-ui'
+
+  # https://github.com/thoughtbot/factory_bot_rails
+  gem 'factory_bot_rails', '~> 6.4', '>= 6.4.3'
 end
 
 group :test do
