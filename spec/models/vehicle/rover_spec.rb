@@ -40,34 +40,73 @@ RSpec.describe Vehicle::Rover, :model do
     end
   end
 
-  describe '#move_x_axis' do
+  describe '#move' do
     context 'when call move a position' do
       it 'moves rover' do
-        rover = described_class.new(x_axis: 5, y_axis: 3)
+        rover = described_class.new(x_axis: 0, y_axis: 0, orientation: described_class::NORTH)
 
-        rover.move_x_axis
+        expect(rover.orientation).to eq(described_class::NORTH)
 
-        expect(rover.x_axis).to eq(6)
+        rover.move
+        expect(rover.y_axis).to eq(1)
 
-        rover.move_x_axis
+        rover.move_right
+        rover.move
+        expect(rover.x_axis).to eq(1)
 
-        expect(rover.x_axis).to eq(7)
+        rover.move_right
+        rover.move
+        rover.move
+        expect(rover.y_axis).to be_zero
+
+        rover.move_right
+        rover.move
+        rover.move
+        expect(rover.x_axis).to be_zero
       end
     end
   end
 
-  describe '#move_y_axis' do
-    context 'when call move a position' do
+  describe '#move_left' do
+    context 'when the call changes orientation' do
       it 'moves rover' do
-        rover = described_class.new(x_axis: 5, y_axis: 3)
+        rover = described_class.new(x_axis: 0, y_axis: 2, orientation: described_class::NORTH)
 
-        rover.move_y_axis
+        expect(rover.orientation).to eq(described_class::NORTH)
 
-        expect(rover.y_axis).to eq(4)
+        rover.move_left
+        expect(rover.orientation).to eq(described_class::WEST)
 
-        rover.move_y_axis
+        rover.move_left
+        expect(rover.orientation).to eq(described_class::SOUTH)
 
-        expect(rover.y_axis).to eq(5)
+        rover.move_left
+        expect(rover.orientation).to eq(described_class::EAST)
+
+        rover.move_left
+        expect(rover.orientation).to eq(described_class::NORTH)
+      end
+    end
+  end
+
+  describe '#move_right' do
+    context 'when the call changes orientation' do
+      it 'moves rover' do
+        rover = described_class.new(x_axis: 0, y_axis: 2, orientation: described_class::NORTH)
+
+        expect(rover.orientation).to eq(described_class::NORTH)
+
+        rover.move_right
+        expect(rover.orientation).to eq(described_class::EAST)
+
+        rover.move_right
+        expect(rover.orientation).to eq(described_class::SOUTH)
+
+        rover.move_right
+        expect(rover.orientation).to eq(described_class::WEST)
+
+        rover.move_right
+        expect(rover.orientation).to eq(described_class::NORTH)
       end
     end
   end
@@ -75,14 +114,21 @@ RSpec.describe Vehicle::Rover, :model do
   describe '#path' do
     context 'when the rover moves' do
       it 'updates path' do
-        rover = described_class.new(x_axis: 5, y_axis: 3)
+        rover = described_class.new(x_axis: 0, y_axis: 0)
 
         expect(rover.path).to eq([])
 
-        rover.move_y_axis
-             .move_x_axis
+        rover.move_left
+        rover.move
+        rover.move_right
+        rover.move
 
-        expect(rover.path).to eq([{ x_axis: 5, y_axis: 4 }, { x_axis: 6, y_axis: 4 }])
+        expectd_path = [
+          { orientation: 'W', x_axis: 0, y_axis: 0 },
+          { orientation: 'N', x_axis: 0, y_axis: 1 }
+        ]
+
+        expect(rover.path).to eq(expectd_path)
       end
     end
   end

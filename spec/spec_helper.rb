@@ -107,7 +107,7 @@ RSpec.configure do |config|
       add_filter 'mailers/application_mailer.rb'
       add_filter 'jobs/application_job.rb'
 
-      add_group 'services', '/services'
+      add_group 'Services', '/services'
     end
   end
 
@@ -123,5 +123,9 @@ RSpec.configure do |config|
       with.library :active_model
     end
   end
+
+  # https://github.com/thoughtbot/factory_bot/
+  require 'factory_bot'
+  config.include FactoryBot::Syntax::Methods
 end
 # rubocop:enable Metrics/BlockLength
