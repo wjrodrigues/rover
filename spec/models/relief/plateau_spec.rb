@@ -88,7 +88,7 @@ RSpec.describe Relief::Plateau, :model do
         expect(plateau.vehicles).to eq([rover])
       end
 
-      it 'does not add adds if present' do
+      it 'does not add if present' do
         rover = Vehicle::Rover.new(x_axis: 0, y_axis: 0)
         plateau = described_class.new(width: 20, height: 10)
 
