@@ -26,7 +26,8 @@ module Relief
     def to_move?(x_axis:, y_axis:)
       [x_axis, y_axis] => Integer, Integer
 
-      (x_axis <= width && y_axis <= height) && !(x_axis.negative? || y_axis.negative?)
+      (x_axis <= width && y_axis <= height) && !(x_axis.negative? || y_axis.negative?) &&
+        location_empty?(x_axis:, y_axis:)
     end
 
     def add_vehicle!(vehicle)
@@ -34,8 +35,8 @@ module Relief
       y_axis = vehicle.y_axis
 
       return nil if vehicles.include?(vehicle)
-      return raise ERRORS[:invalid_location] unless to_move?(x_axis:, y_axis:)
       return raise ERRORS[:not_empty_location] unless location_empty?(x_axis:, y_axis:)
+      return raise ERRORS[:invalid_location] unless to_move?(x_axis:, y_axis:)
 
       vehicles << vehicle
 
