@@ -8,3 +8,6 @@ Style/Documentation:
 
 Metrics/BlockLength:
   Exclude: ["**/*_spec.rb"]
+
+Lint/ConstantDefinitionInBlock:
+  Exclude: ["**/*_spec.rb"]
