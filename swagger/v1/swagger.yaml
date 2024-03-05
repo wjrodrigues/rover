@@ -1,0 +1,19 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/vehicle/rover":
+    post:
+      summary: Creates a rover
+      tags:
+      - Rovers
+      responses:
+        '200':
+          description: rover created
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
