@@ -2,10 +2,15 @@
 
 module Vehicle
   class DtoRover
-    attr_accessor :dimension, :inital_position, :moviments
+    attr_accessor :dimension, :inital_position, :movement
 
     DIMENSION = Struct.new(:width, :height)
     INITAL_POSITION = Struct.new(:x_axis, :y_axis, :orientation)
+    MOVEMENT = Struct.new(:actions) do
+      def left?(value) = value.upcase == 'L'
+      def right?(value) = value.upcase == 'R'
+      def move?(value) = value.upcase == 'M'
+    end
 
     def initialize(values)
       values.each { |value| kind(value) }
@@ -19,12 +24,16 @@ module Vehicle
 
     def dimension!(value)
       dimensions = value.split(Regex::ALL_SPACE)
-      self.dimension = DIMENSION.new(width: dimensions[0], height: dimensions[1])
+      self.dimension = DIMENSION.new(width: dimensions[0].to_i, height: dimensions[1].to_i)
     end
 
     def initial_position!(value)
       positions = value.split(Regex::ALL_SPACE)
-      self.inital_position = INITAL_POSITION.new(x_axis: positions[0], y_axis: positions[1], orientation: positions[2])
+      self.inital_position = INITAL_POSITION.new(
+        x_axis: positions[0].to_i,
+        y_axis: positions[1].to_i,
+        orientation: positions[2]
+      )
     end
 
     def kind(value)
@@ -36,7 +45,7 @@ module Vehicle
       when Regex::INITIAL_POSITION
         initial_position!(value)
       when Regex::MOVEMENT
-        self.moviments = value.chars
+        self.movement = MOVEMENT.new(actions: value.chars)
       end
     end
   end
