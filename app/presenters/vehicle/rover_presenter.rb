@@ -2,18 +2,18 @@
 
 module Vehicle
   class RoverPresenter
-    attr_accessor :vehicle, :errors
+    attr_accessor :vehicles, :errors
 
     def initialize(vehicle:, errors: nil)
-      self.vehicle = vehicle
+      self.vehicles = vehicle
       self.errors = errors
     end
 
     def result(format: :hash)
-      value = if vehicle.is_a?(Array)
-                vehicle.map { |v| build_hash(v) }
+      value = if array?(vehicles) && !vehicles.empty?
+                vehicles.map { |v| build_hash(v) }
               else
-                build_hash(vehicle)
+                build_hash(vehicles)
               end
 
       return JSON.pretty_generate(value) if format == :json
@@ -24,15 +24,21 @@ module Vehicle
     private
 
     def build_hash(vehicle)
-      result = {
-        x: vehicle.x_axis,
-        y: vehicle.y_axis,
-        orientation: vehicle.orientation
-      }
+      result = {}
+
+      unless array?(vehicle)
+        result.merge!(
+          x: vehicle.x_axis,
+          y: vehicle.y_axis,
+          orientation: vehicle.orientation
+        )
+      end
 
       result.merge!(errors:) unless errors.nil? || errors.empty?
 
       result
     end
+
+    def array?(vehicle) = !vehicle.nil? && vehicle.is_a?(Array)
   end
 end
