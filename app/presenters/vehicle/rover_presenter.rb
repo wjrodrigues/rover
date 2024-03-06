@@ -30,7 +30,7 @@ module Vehicle
         orientation: vehicle.orientation
       }
 
-      result.merge!(errors:) unless errors.nil?
+      result.merge!(errors:) unless errors.nil? || errors.empty?
 
       result
     end
