@@ -43,6 +43,17 @@ RSpec.describe Vehicle::RoverPresenter, :presenter do
         expect(presenter.result).to eq(expected)
         expect(presenter.result(format: :json)).to eq(JSON.pretty_generate(expected))
       end
+
+      context 'and vehicle is empty' do
+        it 'returns formatted result with error' do
+          expected = { errors: 'any' }
+          errors = 'any'
+          presenter = described_class.new(vehicle: [], errors:)
+
+          expect(presenter.result).to eq(expected)
+          expect(presenter.result(format: :json)).to eq(JSON.pretty_generate(expected))
+        end
+      end
     end
   end
 end

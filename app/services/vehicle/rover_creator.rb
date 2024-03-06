@@ -19,7 +19,6 @@ module Vehicle
       super
     end
 
-    # rubocop:disable Metrics/AbcSize
     def call
       return add_error(:invalid_values) if dto_invalid?
 
@@ -29,15 +28,13 @@ module Vehicle
       return add_error(:collision) if collision?
 
       explore!(vehicle)
-      area.add_vehicle!(vehicle)
 
-      response.result!(vehicle:, area:)
+      add_vehicle!
     rescue StandardError => e
       Tracker::Track.notify(e)
 
       add_error(:error_processing)
     end
-    # rubocop:enable Metrics/AbcSize
 
     private
 
@@ -81,11 +78,17 @@ module Vehicle
     end
 
     def collision?
-      return false if area.vehicles.empty?
-
       return false if explore!(vehicle.clone, collision: true)
 
       true
+    end
+
+    def add_vehicle!
+      return add_error(:invalid_location) if invalid_location?
+
+      area.add_vehicle!(vehicle)
+
+      response.result!(vehicle:, area:)
     end
   end
 end
