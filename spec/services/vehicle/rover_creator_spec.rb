@@ -10,7 +10,8 @@ RSpec.describe Vehicle::RoverCreator, :service do
       expect(described_class::ERRORS).to eq(
         invalid_values: 'values are invalid',
         invalid_location: 'invalid location',
-        collision: 'collision route'
+        collision: 'collision route',
+        error_processing: 'error when processing information'
       )
     end
   end
@@ -91,6 +92,20 @@ RSpec.describe Vehicle::RoverCreator, :service do
         expect(second_response.result).to be_nil
         expect(second_response.error).to eq('collision route')
       end
+    end
+  end
+
+  context 'when raise error' do
+    it 'calls Tracker::Track' do
+      dto = build(:dto_rover)
+
+      expect(dto).to receive(:dimension).and_raise(StandardError)
+      expect(Tracker::Track).to receive(:notify).with(StandardError)
+
+      response = described_class.call(dto:, area: nil)
+
+      expect(response).not_to be_ok
+      expect(response.error).to eq('error when processing information')
     end
   end
 end
