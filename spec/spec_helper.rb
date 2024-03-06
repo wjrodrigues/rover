@@ -93,6 +93,11 @@ RSpec.configure do |config|
   #   # as the one that triggered the failure.
   Kernel.srand config.seed
 
+  config.before do |example|
+    locale = example.metadata[:locale]
+    I18n.locale = locale unless locale.nil?
+  end
+
   # https://github.com/simplecov-ruby/simplecov
   unless ENV['coverage'].nil?
     require 'simplecov'
