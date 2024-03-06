@@ -1,0 +1,6 @@
+pt-BR:
+  models:
+    relief:
+      plateau:
+        invalid_location: 'localização não é válida'
+        not_empty_location: 'local não está livre'

@@ -1,0 +1,6 @@
+en:
+  models:
+    relief:
+      plateau:
+        invalid_location: 'location is not valid'
+        not_empty_location: 'location is not empty'
