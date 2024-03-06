@@ -6,26 +6,7 @@ services:
     container_name: rover_app
     restart: always
     tty: true
-    environment:
-      DB_NAME: $DB_NAME
-      DB_USER: $DB_USER
-      DB_PASSWORD: $DB_PASSWORD
-      DB_HOST: $DB_HOST
-      DB_PORT: $DB_PORT
     ports:
       - $APP_PORT:$APP_PORT
     volumes:
       - ../:/app
-    links:
-      - rover_db
-
-  rover_db:
-    image: postgres:15-alpine
-    container_name: rover_db
-    restart: always
-    environment:
-      POSTGRES_USER: $DB_USER
-      POSTGRES_PASSWORD: $DB_PASSWORD
-      POSTGRES_DB: $DB_NAME
-    ports:
-      - 5432:5432
