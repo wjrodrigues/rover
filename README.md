@@ -34,6 +34,7 @@ Arquivo que pode ser usado como exemple é o [loader_file](https://github.com/wj
 Para orientação de como usar a interface visite o site do [Swagger UI](https://swagger.io/tools/swagger-ui/)
 
 ## Estrutura
+
 Aplicação foi desenvolvida utilizando [Ruby on Rails](https://rubyonrails.org/)
 
 Estrutura de pastas segue o padrão MVC:
@@ -47,4 +48,15 @@ Estrutura de pastas segue o padrão MVC:
 
 - **Presenters:** Responsável pela apresentação dos dados no formato desejado, JSON, Hash e outros.
 
-- **Libs:** Código auxiliar da aplicação, podendo ser dependências de terceiros ou implementação de recursos nativos com camadas de abstrações, permitindo mudanças sem ocorrer grandes modificações
+- **Libs:** Código auxiliar da aplicação, podendo ser dependências de terceiros ou implementação de recursos nativos com camadas de abstrações, permitindo mudanças sem ocorrer grandes modificações.
+
+## CI
+
+Foi utilizado o github action para executar o CI sendo composto das seguintes ações:
+
+- Inicialização dos containers.
+- Analise estática do estilo do código - [rubocop](https://rubocop.org/)
+- Testes unitários e de integração.
+- Cobertura de código com alvo em 100%.
+
+Exemplo da execução: https://github.com/wjrodrigues/rover/actions
