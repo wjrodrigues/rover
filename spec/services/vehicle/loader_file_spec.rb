@@ -48,13 +48,13 @@ RSpec.describe Vehicle::LoaderFile, :service do
       expect(response.error).to eq('file size is invalid')
     end
 
-    it "returns error 'file not found'" do
+    it "returns error 'file content is not valid'" do
       path = 'spec/fixtures/files/lib/file/reader.txt'
 
       response = described_class.call(path:)
 
       expect(response).not_to be_ok
-      expect(response.error).to eq('file not found')
+      expect(response.error).to eq('file content is not valid')
     end
   end
 
