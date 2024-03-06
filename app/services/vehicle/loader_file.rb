@@ -9,7 +9,8 @@ module Vehicle
     ERRORS = {
       invalid_path: 'file not found',
       invalid_format: 'unsupported format',
-      large_file: 'file size is invalid'
+      large_file: 'file size is invalid',
+      invalid_content: 'file content is not valid'
     }.freeze
 
     def initialize(path:, reader: Files::Reader)
@@ -20,12 +21,15 @@ module Vehicle
       super
     end
 
+    # rubocop:disable Metrics/AbcSize
     def call
       reader.open!
 
-      return response.error!(ERRORS[:large_file]) if large_file?
+      return add_error(:large_file) if large_file?
 
       parse_file!
+
+      return add_error(:invalid_content) if dtos.empty?
 
       response.result!(dtos)
     rescue Files::Error::InvalidPhat
@@ -33,8 +37,11 @@ module Vehicle
     rescue Files::Error::InvalidExtension
       response.error!(ERRORS[:invalid_format])
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
+
+    def add_error(key) = response.error!(ERRORS[key])
 
     def large_file? = File.stat(path).size > LIMIT_FILE_SIZE
 
