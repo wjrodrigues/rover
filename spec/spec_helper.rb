@@ -108,6 +108,7 @@ RSpec.configure do |config|
       add_filter 'jobs/application_job.rb'
 
       add_group 'Services', '/services'
+      add_group 'Presenters', '/presenters'
     end
   end
 
