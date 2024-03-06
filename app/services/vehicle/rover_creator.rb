@@ -7,7 +7,8 @@ module Vehicle
     ERRORS = {
       invalid_values: 'values are invalid',
       invalid_location: 'invalid location',
-      collision: 'collision route'
+      collision: 'collision route',
+      error_processing: 'error when processing information'
     }.freeze
 
     def initialize(dto:, area:, vehicle: Vehicle::Rover)
@@ -18,6 +19,7 @@ module Vehicle
       super
     end
 
+    # rubocop:disable Metrics/AbcSize
     def call
       return add_error(:invalid_values) if dto_invalid?
 
@@ -30,7 +32,12 @@ module Vehicle
       area.add_vehicle!(vehicle)
 
       response.result!(vehicle:, area:)
+    rescue StandardError => e
+      Tracker::Track.notify(e)
+
+      add_error(:error_processing)
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
 
