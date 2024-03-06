@@ -6,7 +6,7 @@ RSpec.describe Vehicle::RoverPresenter, :presenter do
   describe '#result' do
     context 'when it is a vehicle' do
       it 'returns formatted result' do
-        vehicle = Vehicle::Rover.new(x_axis: 1, y_axis: 3, orientation: Vehicle::Rover::SOUTH)
+        vehicle = build(:rover, :south)
         expected = { x: 1, y: 3, orientation: 'S' }
 
         presenter = described_class.new(vehicle:)
@@ -21,8 +21,8 @@ RSpec.describe Vehicle::RoverPresenter, :presenter do
         vehicle = build_list(:rover, 2)
 
         expected = [
-          { x: 1, y: 3, orientation: 'S' },
-          { x: 1, y: 3, orientation: 'S' }
+          { x: 1, y: 3, orientation: 'N' },
+          { x: 1, y: 3, orientation: 'N' }
         ]
 
         presenter = described_class.new(vehicle:)
@@ -34,7 +34,7 @@ RSpec.describe Vehicle::RoverPresenter, :presenter do
 
     context 'when has error' do
       it 'returns formatted result with error' do
-        vehicle = Vehicle::Rover.new(x_axis: 1, y_axis: 3, orientation: Vehicle::Rover::SOUTH)
+        vehicle = build(:rover, :south)
         expected = { x: 1, y: 3, orientation: 'S', errors: 'any' }
         errors = 'any'
 
