@@ -78,8 +78,6 @@ module Vehicle
     end
 
     def collision?
-      return false if area.vehicles.empty?
-
       return false if explore!(vehicle.clone, collision: true)
 
       true

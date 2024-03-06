@@ -106,6 +106,14 @@ RSpec.describe Vehicle::RoverCreator, :service do
 
         expect(response.error).to eq('em rota de colisão')
       end
+
+      it 'moves out of area' do
+        dto = Vehicle::DtoRover.new(['5 5', '5 5 N', 'MMMM'])
+        response = described_class.call(dto:, area:)
+
+        expect(response).not_to be_ok
+        expect(response.error).to eq('collision route')
+      end
     end
   end
 
