@@ -7,6 +7,9 @@ AllCops:
 Style/Documentation:
   Enabled: false
 
+Style/FormatStringToken:
+  Exclude: ["**/*_spec.rb"]
+
 Metrics/BlockLength:
   Exclude: ["**/*_spec.rb"]
 
