@@ -5,3 +5,8 @@ en:
       invalid_format: 'unsupported format'
       large_file: 'file size is invalid'
       invalid_content: 'file content is not valid'
+    creator:
+      invalid_values: 'values are invalid'
+      invalid_location: 'invalid location'
+      collision: 'collision route'
+      error_processing: 'error when processing information'
