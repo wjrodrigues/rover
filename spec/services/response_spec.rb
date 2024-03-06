@@ -49,5 +49,17 @@ RSpec.describe Response, :services do
         expect(response.error).to eq(err)
       end
     end
+
+    context 'when exists i18n' do
+      it 'returns translated errorr', locale: :'pt-BR' do
+        response = described_class.new
+
+        response.error!('activerecord.errors.messages.record_invalid', { errors: 'any' })
+        expect(response.error).to eq('A validação falhou: any')
+
+        response.error!('activerecord.errors.messages.record_invalid')
+        expect(response.error).to eq('A validação falhou: %{errors}')
+      end
+    end
   end
 end

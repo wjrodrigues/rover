@@ -10,8 +10,13 @@ class Response
 
   def ok? = error.nil?
 
-  def error!(err)
-    self.error = err
+  def error!(err, extra = {})
+    self.error = if I18n.exists?(err)
+                   I18n.t(err, **extra)
+                 else
+                   err
+                 end
+
     self
   end
 
