@@ -27,7 +27,9 @@ jobs:
         run: docker exec rover_app bash -c "rubocop"
 
       - name: Permission
-        run: docker exec rover_app bash -c "chmod -R 777 /app/tmp/"
+        run: |
+          docker exec rover_app bash -c "chmod -R 777 /app/tmp/"
+          docker exec rover_app bash -c "chmod -R 777 /app/storage/"
 
       - name: Setup
         run: docker exec -u dev rover_app bash -c "RACK_ENV=test rake db:setup"
