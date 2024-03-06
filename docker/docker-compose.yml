@@ -6,12 +6,6 @@ services:
     container_name: rover_app
     restart: always
     tty: true
-    environment:
-      DB_NAME: $DB_NAME
-      DB_USER: $DB_USER
-      DB_PASSWORD: $DB_PASSWORD
-      DB_HOST: $DB_HOST
-      DB_PORT: $DB_PORT
     command: bash /entrypoint.sh
     mem_limit: 1024m
     mem_reservation: 128M
@@ -21,24 +15,6 @@ services:
     volumes:
       - ../:/app
       - ./entrypoint.sh:/entrypoint.sh
-    networks:
-      - rover_app
-    depends_on:
-      - rover_db
-
-  rover_db:
-    image: postgres:15-alpine
-    container_name: rover_db
-    restart: always
-    mem_limit: 512m
-    mem_reservation: 128M
-    cpus: 0.9
-    environment:
-      POSTGRES_USER: $DB_USER
-      POSTGRES_PASSWORD: $DB_PASSWORD
-      POSTGRES_DB: $DB_NAME
-    volumes:
-      - /tmp/rover_db:/var/lib/postgresql/data
     networks:
       - rover_app
 
