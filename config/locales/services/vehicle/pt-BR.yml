@@ -1,0 +1,7 @@
+pt-BR:
+  services:
+    loader:
+      invalid_path: 'arquivo não encontrado'
+      invalid_format: 'formato não suportado'
+      large_file: 'o tamanho do arquivo é inválido'
+      invalid_content: 'o conteúdo do arquivo não é válido'

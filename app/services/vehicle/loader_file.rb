@@ -7,10 +7,10 @@ module Vehicle
     LIMIT_FILE_SIZE = 100
 
     ERRORS = {
-      invalid_path: 'file not found',
-      invalid_format: 'unsupported format',
-      large_file: 'file size is invalid',
-      invalid_content: 'file content is not valid'
+      invalid_path: 'services.loader.invalid_path',
+      invalid_format: 'services.loader.invalid_format',
+      large_file: 'services.loader.large_file',
+      invalid_content: 'services.loader.invalid_content'
     }.freeze
 
     def initialize(path:, reader: Files::Reader)
