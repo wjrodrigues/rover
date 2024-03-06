@@ -4,16 +4,47 @@ info:
   title: API V1
   version: v1
 paths:
-  "/api/v1/vehicle/rover":
+  "/api/v1/vehicle/rovers":
     post:
       summary: Creates a rover
       tags:
       - Rovers
+      description: creates the rover and guides it on the surface
+      parameters: []
       responses:
-        '200':
+        '201':
           description: rover created
+          content:
+            application/json:
+              examples:
+                success:
+                  value:
+                  - x: 1
+                    "y": 3
+                    orientation: N
+                  - errors: error when processing information
+        '400':
+          description: error when processing
+          content:
+            application/json:
+              examples:
+                failed:
+                  value:
+                    errors: file not found
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: file
+                  name: file
+                  description: file with rover information
+              required:
+              - file
 servers:
-- url: https://{defaultHost}
+- url: http://{defaultHost}
   variables:
     defaultHost:
       default: localhost:3000
