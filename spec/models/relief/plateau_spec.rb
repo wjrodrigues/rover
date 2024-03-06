@@ -67,11 +67,33 @@ RSpec.describe Relief::Plateau, :model do
 
   describe '#add_vehicle!?' do
     context 'when the coordinate is invalid' do
-      it 'raise error invalid location' do
-        rover = Vehicle::Rover.new(x_axis: 22, y_axis: 10)
-        plateau = described_class.new(width: 20, height: 10)
+      shared_examples 'many languages' do |values|
+        values.each do |value|
+          it "raise error '#{value[:text]}'", locale: value[:locale] do
+            expect { plateau.add_vehicle!(rover) }.to raise_error(value[:text])
+          end
+        end
+      end
 
-        expect { plateau.add_vehicle!(rover) }.to raise_error('location is not valid')
+      it_behaves_like 'many languages', [
+        { locale: :en, text: 'location is not valid' },
+        { locale: :'pt-BR', text: 'localização não é válida' }
+      ] do
+        let(:rover) { build(:rover, x_axis: 22, y_axis: 10) }
+        let(:plateau) { described_class.new(width: 20, height: 10) }
+      end
+
+      it_behaves_like 'many languages', [
+        { locale: :en, text: 'location is not empty' },
+        { locale: :'pt-BR', text: 'local não está livre' }
+      ] do
+        let(:rover) { build(:rover, x_axis: 0, y_axis: 0) }
+        let(:plateau) { described_class.new(width: 20, height: 10) }
+
+        before do
+          first_rover = Vehicle::Rover.new(x_axis: 0, y_axis: 0)
+          plateau.add_vehicle!(first_rover)
+        end
       end
 
       it 'raise error if negative location' do
@@ -79,16 +101,6 @@ RSpec.describe Relief::Plateau, :model do
         plateau = described_class.new(width: 20, height: 10)
 
         expect { plateau.add_vehicle!(rover) }.to raise_error('location is not valid')
-      end
-
-      it 'raise error if not empty location' do
-        first_rover = Vehicle::Rover.new(x_axis: 0, y_axis: 0)
-        plateau = described_class.new(width: 20, height: 10)
-        plateau.add_vehicle!(first_rover)
-
-        second_rover = Vehicle::Rover.new(x_axis: 0, y_axis: 0)
-
-        expect { plateau.add_vehicle!(second_rover) }.to raise_error('location is not empty')
       end
     end
 

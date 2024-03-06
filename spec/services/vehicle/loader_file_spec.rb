@@ -10,52 +10,49 @@ RSpec.describe Vehicle::LoaderFile, :service do
     it do
       expect(described_class::ERRORS).to eq(
         {
-          invalid_path: 'file not found',
-          invalid_format: 'unsupported format',
-          large_file: 'file size is invalid',
-          invalid_content: 'file content is not valid'
+          invalid_path: 'services.loader.invalid_path',
+          invalid_format: 'services.loader.invalid_format',
+          large_file: 'services.loader.large_file',
+          invalid_content: 'services.loader.invalid_content'
         }
       )
     end
   end
 
   context 'when path is invalid' do
-    it "returns error 'file not found'" do
-      path = ''
+    shared_examples 'many languages' do |values|
+      values.each do |value|
+        it "returns error '#{value[:text]}'", locale: value[:locale] do
+          response = described_class.call(path: value[:path])
 
-      response = described_class.call(path:)
-
-      expect(response).not_to be_ok
-      expect(response.error).to eq('file not found')
+          expect(response).not_to be_ok
+          expect(response.error).to eq(value[:text])
+        end
+      end
     end
 
-    it "returns error 'unsupported format'" do
-      path = 'spec/fixtures/files/lib/file/reader.csv'
+    it_behaves_like 'many languages', [
+      { locale: :en, text: 'file not found', path: '' },
+      { locale: :'pt-BR', text: 'arquivo não encontrado', path: '' }
+    ]
 
-      response = described_class.call(path:)
+    it_behaves_like 'many languages', [
+      { locale: :en, text: 'unsupported format', path: 'spec/fixtures/files/lib/file/reader.csv' },
+      { locale: :'pt-BR', text: 'formato não suportado', path: 'spec/fixtures/files/lib/file/reader.csv' }
+    ]
 
-      expect(response).not_to be_ok
-      expect(response.error).to eq('unsupported format')
+    it_behaves_like 'many languages', [
+      { locale: :en, text: 'file size is invalid', path: 'spec/fixtures/services/vehicle/loader_file.txt' },
+      { locale: :'pt-BR', text: 'o tamanho do arquivo é inválido',
+        path: 'spec/fixtures/services/vehicle/loader_file.txt' }
+    ] do
+      before { stub_const('Vehicle::LoaderFile::LIMIT_FILE_SIZE', 1) }
     end
 
-    it "returns error 'file size is invalid'" do
-      path = 'spec/fixtures/services/vehicle/loader_file.txt'
-      stub_const('Vehicle::LoaderFile::LIMIT_FILE_SIZE', 1)
-
-      response = described_class.call(path:)
-
-      expect(response).not_to be_ok
-      expect(response.error).to eq('file size is invalid')
-    end
-
-    it "returns error 'file content is not valid'" do
-      path = 'spec/fixtures/files/lib/file/reader.txt'
-
-      response = described_class.call(path:)
-
-      expect(response).not_to be_ok
-      expect(response.error).to eq('file content is not valid')
-    end
+    it_behaves_like 'many languages', [
+      { locale: :en, text: 'file content is not valid', path: 'spec/fixtures/files/lib/file/reader.txt' },
+      { locale: :'pt-BR', text: 'o conteúdo do arquivo não é válido', path: 'spec/fixtures/files/lib/file/reader.txt' }
+    ]
   end
 
   context 'when path is valid' do

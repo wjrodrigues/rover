@@ -98,6 +98,8 @@ RSpec.configure do |config|
     I18n.locale = locale unless locale.nil?
   end
 
+  config.after { I18n.locale = :en }
+
   # https://github.com/simplecov-ruby/simplecov
   unless ENV['coverage'].nil?
     require 'simplecov'

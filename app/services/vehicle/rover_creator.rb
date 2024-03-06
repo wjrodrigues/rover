@@ -5,10 +5,10 @@ module Vehicle
     attr_accessor :dto, :vehicle, :area
 
     ERRORS = {
-      invalid_values: 'values are invalid',
-      invalid_location: 'invalid location',
-      collision: 'collision route',
-      error_processing: 'error when processing information'
+      invalid_values: 'services.creator.invalid_values',
+      invalid_location: 'services.creator.invalid_location',
+      collision: 'services.creator.collision',
+      error_processing: 'services.creator.error_processing'
     }.freeze
 
     def initialize(dto:, area:, vehicle: Vehicle::Rover)

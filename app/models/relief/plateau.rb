@@ -5,8 +5,8 @@ module Relief
     include ActiveModel::Validations
 
     ERRORS = {
-      invalid_location: 'location is not valid',
-      not_empty_location: 'location is not empty'
+      invalid_location: 'models.relief.plateau.invalid_location',
+      not_empty_location: 'models.relief.plateau.not_empty_location'
     }.freeze
 
     attr_accessor :width, :height, :vehicles
@@ -35,8 +35,8 @@ module Relief
       y_axis = vehicle.y_axis
 
       return nil if vehicles.include?(vehicle)
-      return raise ERRORS[:not_empty_location] unless location_empty?(x_axis:, y_axis:)
-      return raise ERRORS[:invalid_location] unless to_move?(x_axis:, y_axis:)
+      return raise error(:not_empty_location) unless location_empty?(x_axis:, y_axis:)
+      return raise error(:invalid_location) unless to_move?(x_axis:, y_axis:)
 
       vehicles << vehicle
 
@@ -48,5 +48,6 @@ module Relief
     private_constant :ERRORS
 
     def location_empty?(x_axis:, y_axis:) = vehicles.find { |v| v.x_axis == x_axis && v.y_axis == y_axis }.nil?
+    def error(key) = I18n.t(ERRORS[key])
   end
 end

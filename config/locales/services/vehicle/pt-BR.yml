@@ -1,0 +1,12 @@
+pt-BR:
+  services:
+    loader:
+      invalid_path: 'arquivo não encontrado'
+      invalid_format: 'formato não suportado'
+      large_file: 'o tamanho do arquivo é inválido'
+      invalid_content: 'o conteúdo do arquivo não é válido'
+    creator:
+      invalid_values: 'os valores são inválidos'
+      invalid_location: 'localização inválida'
+      collision: 'em rota de colisão'
+      error_processing: 'erro ao processar informações'

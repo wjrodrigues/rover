@@ -9,6 +9,7 @@ RSpec.describe Api::V1::Vehicle::RoversController, type: :request do
       description 'creates the rover and guides it on the surface'
       consumes 'multipart/form-data'
       produces 'application/json'
+      parameter name: :locale, in: :query, type: :string, default: :en, require: false
       parameter name: :file,
                 in: :formData,
                 schema: {
@@ -21,6 +22,7 @@ RSpec.describe Api::V1::Vehicle::RoversController, type: :request do
 
       response 201, 'rover created' do
         let(:file) { fixture_file_upload('spec/fixtures/services/vehicle/loader_file.txt') }
+        let(:locale) { :en }
 
         run_test! do |response|
           body = JSON.parse(response.body)
@@ -40,6 +42,7 @@ RSpec.describe Api::V1::Vehicle::RoversController, type: :request do
 
       response 400, 'error when processing' do
         let(:file) { '' }
+        let(:locale) { :en }
 
         run_test! do |response|
           body = JSON.parse(response.body)
