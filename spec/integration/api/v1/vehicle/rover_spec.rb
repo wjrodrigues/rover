@@ -22,6 +22,7 @@ RSpec.describe Api::V1::Vehicle::RoversController, type: :request do
 
       response 201, 'rover created' do
         let(:file) { fixture_file_upload('spec/fixtures/services/vehicle/loader_file.txt') }
+        let(:locale) { :en }
 
         run_test! do |response|
           body = JSON.parse(response.body)
@@ -41,6 +42,7 @@ RSpec.describe Api::V1::Vehicle::RoversController, type: :request do
 
       response 400, 'error when processing' do
         let(:file) { '' }
+        let(:locale) { :en }
 
         run_test! do |response|
           body = JSON.parse(response.body)
