@@ -9,6 +9,7 @@ RSpec.describe Api::V1::Vehicle::RoversController, type: :request do
       description 'creates the rover and guides it on the surface'
       consumes 'multipart/form-data'
       produces 'application/json'
+      parameter name: :locale, in: :query, type: :string, default: :en, require: false
       parameter name: :file,
                 in: :formData,
                 schema: {

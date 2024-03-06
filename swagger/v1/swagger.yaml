@@ -10,7 +10,13 @@ paths:
       tags:
       - Rovers
       description: creates the rover and guides it on the surface
-      parameters: []
+      parameters:
+      - name: locale
+        in: query
+        default: en
+        require: false
+        schema:
+          type: string
       responses:
         '201':
           description: rover created
