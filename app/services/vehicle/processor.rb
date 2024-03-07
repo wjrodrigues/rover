@@ -2,7 +2,7 @@
 
 module Vehicle
   class Processor < Callable
-    attr_accessor :path_file, :loader, :creator, :area
+    attr_accessor :path_file, :loader, :creator, :area, :errors
 
     ERRORS = {
       error_processing: 'services.processor.error_processing'
@@ -13,6 +13,7 @@ module Vehicle
       self.loader = loader
       self.creator = creator
       self.area = area
+      self.errors = []
 
       super
     end
@@ -22,11 +23,9 @@ module Vehicle
 
       return add_error(response_file.error) unless response_file.ok?
 
-      errors = create_vehicle(response_file)
+      create_vehicle(response_file)
 
-      return add_error(errors) unless errors.empty?
-
-      response.result!(area)
+      build_response
     rescue StandardError => e
       Tracker::Track.notify(e)
 
@@ -35,20 +34,25 @@ module Vehicle
 
     private
 
-    def create_vehicle(response_file)
-      dimension = response_file.result.first.dimension
-      self.area = area.new(width: dimension.width, height: dimension.height)
+    def add_error(error) = response.error!(error)
 
-      errors = []
+    def create_vehicle(response_file)
+      self.area = build_area(response_file.result.first.dimension)
 
       response_file.result.each do |dto|
         response_creator = creator.call(dto:, area:)
         errors << response_creator.error unless response_creator.ok?
       end
-
-      errors
     end
 
-    def add_error(error) = response.error!(error)
+    def build_area(dimension) = area.new(width: dimension.width, height: dimension.height)
+
+    def build_response
+      response.result!(area) unless area.vehicles.empty?
+
+      add_error(errors) unless errors.empty?
+
+      response
+    end
   end
 end
