@@ -16,6 +16,8 @@ Acompanhar status container
 docker logs rover_app -f
 ```
 
+Link da aplicação: http://localhost:3000
+
 ## Documentação
 Atualiza documentação da aplicação
 
