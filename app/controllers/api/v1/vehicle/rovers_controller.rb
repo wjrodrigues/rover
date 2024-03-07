@@ -5,15 +5,15 @@ module Api
     module Vehicle
       class RoversController < ApplicationController
         def create
-          resp = ::Vehicle::LoaderFile.call(path: path_file)
+          response_file = ::Vehicle::LoaderFile.call(path: path_file)
 
-          return render json: { errors: resp.error }, status: :bad_request unless resp.ok?
+          return render json: { errors: response_file.error }, status: :bad_request unless response_file.ok?
 
-          area = build_area(resp.result.first.dimension)
+          area = build_area(response_file.result.first.dimension)
 
-          errors = create_rover(resp.result, area)
+          errors = create_vehicle(response_file.result, area)
 
-          presenter = ::Vehicle::RoverPresenter.new(vehicle: area.vehicles, errors:)
+          presenter = ::Vehicle::Presenter.new(vehicle: area.vehicles, errors:)
 
           render json: presenter.result(format: :json), status: :created
         end
@@ -30,12 +30,12 @@ module Api
 
         def build_area(dimension) = ::Relief::Plateau.new(width: dimension.width, height: dimension.height)
 
-        def create_rover(result, area)
+        def create_vehicle(dtos, area)
           errors = []
 
-          result.each do |dto|
-            resp = ::Vehicle::RoverCreator.call(dto:, area:)
-            errors << resp.error unless resp.ok?
+          dtos.each do |dto|
+            response_creator = ::Vehicle::Creator.call(dto:, area:)
+            errors << response_creator.error unless response_creator.ok?
           end
 
           errors

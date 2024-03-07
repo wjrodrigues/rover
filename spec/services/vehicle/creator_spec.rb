@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Vehicle::RoverCreator, :service do
+RSpec.describe Vehicle::Creator, :service do
   describe '#constants' do
     it { expect(described_class::ERRORS).to be_frozen }
 
@@ -34,7 +34,7 @@ RSpec.describe Vehicle::RoverCreator, :service do
       { locale: :en, text: 'values are invalid' },
       { locale: :'pt-BR', text: 'os valores são inválidos' }
     ] do
-      let(:dto) { build(:dto_rover, dimension: nil) }
+      let(:dto) { build(:dto_vehicle, dimension: nil) }
     end
 
     it_behaves_like 'many languages', [
@@ -42,7 +42,7 @@ RSpec.describe Vehicle::RoverCreator, :service do
       { locale: :'pt-BR', text: 'localização inválida' }
     ] do
       let(:dto) do
-        build(:dto_rover) { |dto| dto.inital_position.x_axis = 20 }
+        build(:dto_vehicle) { |dto| dto.inital_position.x_axis = 20 }
       end
     end
   end
@@ -51,8 +51,8 @@ RSpec.describe Vehicle::RoverCreator, :service do
     let(:area) { Relief::Plateau.new(width: 5, height: 5) }
 
     it 'creates rover on area' do
-      first_dto = build(:dto_rover)
-      second_dto = build(:dto_rover, :second)
+      first_dto = build(:dto_vehicle)
+      second_dto = build(:dto_vehicle, :second)
 
       first_response = described_class.call(dto: first_dto, area:)
       expect(first_response).to be_ok
@@ -79,8 +79,8 @@ RSpec.describe Vehicle::RoverCreator, :service do
     end
 
     context 'and there is a collision' do
-      let(:first_dto) { build(:dto_rover) }
-      let(:second_dto) { build(:dto_rover) }
+      let(:first_dto) { build(:dto_vehicle) }
+      let(:second_dto) { build(:dto_vehicle) }
 
       it 'moves only the first rover locale: :en' do
         first_response = described_class.call(dto: first_dto, area:)
@@ -108,7 +108,7 @@ RSpec.describe Vehicle::RoverCreator, :service do
       end
 
       it 'moves out of area' do
-        dto = Vehicle::DtoRover.new(['5 5', '5 5 N', 'MMMM'])
+        dto = Vehicle::Dto.new(['5 5', '5 5 N', 'MMMM'])
         response = described_class.call(dto:, area:)
 
         expect(response).not_to be_ok
@@ -118,7 +118,7 @@ RSpec.describe Vehicle::RoverCreator, :service do
   end
 
   context 'when raise error' do
-    let(:dto) { build(:dto_rover) }
+    let(:dto) { build(:dto_vehicle) }
 
     it 'calls Tracker::Track locale: :en' do
       expect(dto).to receive(:dimension).and_raise(StandardError)

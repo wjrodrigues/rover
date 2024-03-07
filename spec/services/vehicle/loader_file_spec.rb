@@ -58,7 +58,7 @@ RSpec.describe Vehicle::LoaderFile, :service do
   context 'when path is valid' do
     it 'returns result with DdtRover' do
       path = 'spec/fixtures/services/vehicle/loader_file.txt'
-      expected_dtos = [build(:dto_rover), build(:dto_rover, :second)]
+      expected_dtos = [build(:dto_vehicle), build(:dto_vehicle, :second)]
 
       response = described_class.call(path:)
 

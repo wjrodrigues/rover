@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Vehicle
-  class RoverCreator < Callable
+  class Creator < Callable
     attr_accessor :dto, :vehicle, :area
 
     ERRORS = {

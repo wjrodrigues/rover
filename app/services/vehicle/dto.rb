@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Vehicle
-  class DtoRover
+  class Dto
     attr_accessor :dimension, :inital_position, :movement
 
     DIMENSION = Struct.new(:width, :height)
