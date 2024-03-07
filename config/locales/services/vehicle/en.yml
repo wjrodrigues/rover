@@ -10,3 +10,5 @@ en:
       invalid_location: 'invalid location'
       collision: 'collision route'
       error_processing: 'error when processing information'
+    processor:
+      error_processing: 'error when processing information'

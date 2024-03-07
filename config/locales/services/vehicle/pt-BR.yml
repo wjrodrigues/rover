@@ -10,3 +10,5 @@ pt-BR:
       invalid_location: 'localização inválida'
       collision: 'em rota de colisão'
       error_processing: 'erro ao processar informações'
+    processor:
+      error_processing: 'erro ao processar informações'
