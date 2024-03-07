@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Vehicle
-  class RoverPresenter
+  class Presenter
     attr_accessor :vehicles, :errors
 
     def initialize(vehicle:, errors: nil)

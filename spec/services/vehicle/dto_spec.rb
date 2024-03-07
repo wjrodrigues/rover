@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Vehicle::DtoRover, :service do
+RSpec.describe Vehicle::Dto, :service do
   describe '#new' do
     context 'when params are valid' do
       it 'returns parsed values' do

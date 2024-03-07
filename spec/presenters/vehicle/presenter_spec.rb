@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Vehicle::RoverPresenter, :presenter do
+RSpec.describe Vehicle::Presenter, :presenter do
   describe '#result' do
     context 'when it is a vehicle' do
       it 'returns formatted result' do

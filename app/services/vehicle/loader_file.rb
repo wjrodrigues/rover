@@ -2,7 +2,7 @@
 
 module Vehicle
   class LoaderFile < Callable
-    attr_accessor :reader, :path, :dtos
+    attr_accessor :reader, :path, :dto, :dtos
 
     LIMIT_FILE_SIZE = 100
 
@@ -13,9 +13,10 @@ module Vehicle
       invalid_content: 'services.loader.invalid_content'
     }.freeze
 
-    def initialize(path:, reader: Files::Reader)
+    def initialize(path:, reader: Files::Reader, dto: Vehicle::Dto)
       self.path = path
       self.reader = reader.new(path)
+      self.dto = dto
       self.dtos = []
 
       super
@@ -52,7 +53,7 @@ module Vehicle
       end
     end
 
-    def new_dto_rover(values) = dtos << Vehicle::DtoRover.new(values)
+    def new_dto(values) = dtos << Vehicle::Dto.new(values)
 
     def parse_file!
       dimension = reader.readline
@@ -64,7 +65,7 @@ module Vehicle
 
         next unless values.size == limit_size
 
-        new_dto_rover(values.push(dimension))
+        new_dto(values.push(dimension))
 
         values = []
       end

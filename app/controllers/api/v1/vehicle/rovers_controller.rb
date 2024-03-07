@@ -11,9 +11,9 @@ module Api
 
           area = build_area(response_file.result.first.dimension)
 
-          errors = create_rover(response_file.result, area)
+          errors = create_vehicle(response_file.result, area)
 
-          presenter = ::Vehicle::RoverPresenter.new(vehicle: area.vehicles, errors:)
+          presenter = ::Vehicle::Presenter.new(vehicle: area.vehicles, errors:)
 
           render json: presenter.result(format: :json), status: :created
         end
@@ -30,11 +30,11 @@ module Api
 
         def build_area(dimension) = ::Relief::Plateau.new(width: dimension.width, height: dimension.height)
 
-        def create_rover(dtos, area)
+        def create_vehicle(dtos, area)
           errors = []
 
           dtos.each do |dto|
-            response_creator = ::Vehicle::RoverCreator.call(dto:, area:)
+            response_creator = ::Vehicle::Creator.call(dto:, area:)
             errors << response_creator.error unless response_creator.ok?
           end
 
