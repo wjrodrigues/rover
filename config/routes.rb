@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get '/', to: redirect('/api-docs')
+
   namespace :api do
     namespace :v1 do
       namespace :vehicle do

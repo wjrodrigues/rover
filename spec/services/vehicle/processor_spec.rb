@@ -15,9 +15,9 @@ RSpec.describe Vehicle::Processor, :service do
 
   context 'when file is valid' do
     it 'creates vehicles on area' do
-      path_file = 'spec/fixtures/services/vehicle/loader_file.txt'
+      value = 'spec/fixtures/services/vehicle/loader_file.txt'
 
-      response = described_class.call(path_file:)
+      response = described_class.call(value:)
 
       expect(response).to be_ok
       expect(response.result).to be_is_a(Relief::Plateau)
@@ -27,9 +27,9 @@ RSpec.describe Vehicle::Processor, :service do
 
   context 'when the file is invalid' do
     it 'does not creates vehicle' do
-      path_file = ''
+      value = ''
 
-      response = described_class.call(path_file:)
+      response = described_class.call(value:)
 
       expect(response).not_to be_ok
       expect(response.error).to eq('file not found')
@@ -40,12 +40,12 @@ RSpec.describe Vehicle::Processor, :service do
   context 'when raise error' do
     it 'calls Tracker::Track locale: :en' do
       loader = double('Vehicle::LoaderFile')
-      path_file = 'spec/fixtures/services/vehicle/loader_file.txt'
+      value = 'spec/fixtures/services/vehicle/loader_file.txt'
 
       expect(loader).to receive(:call).and_raise(StandardError)
       expect(Tracker::Track).to receive(:notify).with(StandardError)
 
-      response = described_class.call(path_file:, loader:)
+      response = described_class.call(value:, loader:)
 
       expect(response).not_to be_ok
       expect(response.error).to eq('error when processing information')
@@ -53,11 +53,11 @@ RSpec.describe Vehicle::Processor, :service do
 
     it 'calls Tracker::Track locale: :pt-BR', locale: :'pt-BR' do
       loader = double('Vehicle::LoaderFile')
-      path_file = 'spec/fixtures/services/vehicle/loader_file.txt'
+      value = 'spec/fixtures/services/vehicle/loader_file.txt'
 
       expect(loader).to receive(:call).and_raise(StandardError)
 
-      response = described_class.call(path_file:, loader:)
+      response = described_class.call(value:, loader:)
 
       expect(response.error).to eq('erro ao processar informações')
     end

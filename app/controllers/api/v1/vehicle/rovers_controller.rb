@@ -5,7 +5,7 @@ module Api
     module Vehicle
       class RoversController < ApplicationController
         def create
-          response_processor = ::Vehicle::Processor.call(path_file:)
+          response_processor = ::Vehicle::Processor.call(value: path_file)
 
           if !response_processor.ok? && response_processor.result.nil?
             return render json: { errors: response_processor.error }, status: :bad_request
