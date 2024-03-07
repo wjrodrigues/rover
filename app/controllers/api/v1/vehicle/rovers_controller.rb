@@ -5,15 +5,16 @@ module Api
     module Vehicle
       class RoversController < ApplicationController
         def create
-          response_file = ::Vehicle::LoaderFile.call(path: path_file)
+          response_processor = ::Vehicle::Processor.call(path_file:)
 
-          return render json: { errors: response_file.error }, status: :bad_request unless response_file.ok?
+          if !response_processor.ok? && response_processor.result.nil?
+            return render json: { errors: response_processor.error }, status: :bad_request
+          end
 
-          area = build_area(response_file.result.first.dimension)
-
-          errors = create_vehicle(response_file.result, area)
-
-          presenter = ::Vehicle::Presenter.new(vehicle: area.vehicles, errors:)
+          presenter = ::Vehicle::Presenter.new(
+            vehicle: response_processor.result.vehicles,
+            errors: response_processor.error
+          )
 
           render json: presenter.result(format: :json), status: :created
         end
@@ -26,19 +27,6 @@ module Api
           return file.path if file.is_a?(ActionDispatch::Http::UploadedFile)
 
           ''
-        end
-
-        def build_area(dimension) = ::Relief::Plateau.new(width: dimension.width, height: dimension.height)
-
-        def create_vehicle(dtos, area)
-          errors = []
-
-          dtos.each do |dto|
-            response_creator = ::Vehicle::Creator.call(dto:, area:)
-            errors << response_creator.error unless response_creator.ok?
-          end
-
-          errors
         end
       end
     end
